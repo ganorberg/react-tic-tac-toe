@@ -22520,7 +22520,7 @@ var App = function (_Component) {
         return;
       }
 
-      var letter = this.counter % 2 ? 'X' : 'O';
+      var letter = this.counter % 2 === 0 ? 'X' : 'O';
       this.counter++;
 
       // Clone board to avoid mutating state directly

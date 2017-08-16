@@ -95,7 +95,7 @@ export default class App extends Component {
   flip(row, column) {
     if (this.state.board[row][column] !== '-') { return; }
    
-    const letter = this.counter % 2 ? 'X' : 'O';
+    const letter = this.counter % 2 === 0 ? 'X' : 'O';
     this.counter++;
 
     // Clone board to avoid mutating state directly
