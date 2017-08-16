@@ -8,8 +8,6 @@ export default function Row({ board, boxStyle, row, flip }) {
         <Box
           board={board}
           boxStyle={boxStyle}
-
-          // box prop stores row and column info for boxes to update state
           coords={row + ',' + column}
           key={row + ',' + column}
           flip={flip}
