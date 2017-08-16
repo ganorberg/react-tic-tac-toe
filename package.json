@@ -2,6 +2,11 @@
   "name": "react-tic-tac-toe",
   "version": "1.0.0",
   "description": "Interactive (and pretty!) Tic-tac-toe built with React",
+  "author": "George Norberg",
+  "contributors": [{ 
+    "name": "Edward Guo",
+    "github": "ehguo"
+  }],
   "scripts": {
     "start": "webpack --config webpack.config.js"
   },
@@ -9,7 +14,6 @@
     "type": "git",
     "url": "git://github.com/ganorberg/react-tic-tac-toe.git"
   },
-  "author": "George Norberg",
   "license": "MIT",
   "dependencies": {
     "react": "^15.6.1",
