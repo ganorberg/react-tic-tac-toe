@@ -8,7 +8,7 @@
     "github": "ehguo"
   }],
   "scripts": {
-    "start": "webpack --config webpack.config.js"
+    "start": "webpack"
   },
   "repository": {
     "type": "git",
