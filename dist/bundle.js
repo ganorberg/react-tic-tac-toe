@@ -22435,7 +22435,7 @@ var App = function (_Component) {
       board: [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']],
       style: {
         outline: "none",
-        fontSize: 100 + 'px'
+        fontSize: 72 + 'px'
       }
     };
 
@@ -22452,7 +22452,7 @@ var App = function (_Component) {
     value: function newGame() {
       this.setState({
         board: [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']],
-        style: { fontSize: 100 + 'px' }
+        style: { fontSize: 72 + 'px' }
       });
 
       this.counter = 0;
@@ -22498,7 +22498,7 @@ var App = function (_Component) {
     value: function flashWin(win) {
       var draw = {
         board: [[win, win, win], [win, win, win], [win, win, win]],
-        style: { fontSize: 50 + 'px' }
+        style: { fontSize: 32 + 'px' }
       };
 
       var winner = {
