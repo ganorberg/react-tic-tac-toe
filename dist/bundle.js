@@ -22439,7 +22439,10 @@ var App = function (_Component) {
       }
     };
 
-    _this.flip = _this.flip.bind(_this), _this.newGame = _this.newGame.bind(_this), _this.checkWin = _this.checkWin.bind(_this), _this.flashWin = _this.flashWin.bind(_this);
+    _this.checkWin = _this.checkWin.bind(_this), _this.flashWin = _this.flashWin.bind(_this);
+    _this.flip = _this.flip.bind(_this), _this.newGame = _this.newGame.bind(_this),
+
+    // counter used to alternate X and O as well as determine draw
     _this.counter = 0;
     return _this;
   }
@@ -22456,56 +22459,91 @@ var App = function (_Component) {
     }
   }, {
     key: 'checkWin',
-    value: function checkWin(row, column, lastMove) {
-      var middle = this.state.board[1][1];
-
+    value: function checkWin(row, column, lastLetter) {
       // Check row and column last move resides in
-      for (var i = 0; i < 3; i += 1) {
-        if (this.state.board[row][i] !== lastMove) break;
-        if (i == 2) return this.flashWin(lastMove);
+      for (var testColumn = 0; testColumn < 3; testColumn += 1) {
+        if (this.state.board[row][testColumn] !== lastLetter) break;
+        if (testColumn === 2) {
+          this.flashWin(lastLetter);
+          return;
+        }
       }
 
-      for (var _i = 0; _i < 3; _i += 1) {
-        if (this.state.board[_i][column] !== lastMove) break;
-        if (_i == 2) return this.flashWin(lastMove);
+      for (var testRow = 0; testRow < 3; testRow += 1) {
+        if (this.state.board[testRow][column] !== lastLetter) break;
+        if (testRow === 2) {
+          this.flashWin(lastLetter);
+          return;
+        }
       }
 
-      // Diagonal check. 
+      // Diagonal check
+      var topLeft = this.state.board[0][0];
+      var topRight = this.state.board[0][2];
+      var middle = this.state.board[1][1];
+      var bottomLeft = this.state.board[2][0];
+      var bottomRight = this.state.board[2][2];
 
-      if (this.counter > 8) this.flashWin('DRAW');
+      if (topLeft === lastLetter && middle === lastLetter && bottomRight === lastLetter || topRight === lastLetter && middle === lastLetter && bottomLeft === lastLetter) {
+        this.flashWin(lastLetter);
+        return;
+      }
+
+      if (this.counter > 8) {
+        this.flashWin('DRAW');
+      }
     }
   }, {
     key: 'flashWin',
     value: function flashWin(win) {
+      var draw = {
+        board: [[win, win, win], [win, win, win], [win, win, win]],
+        style: { fontSize: 50 + 'px' }
+      };
+
+      var winner = {
+        board: [[win, win, win], ['W', 'I', 'N'], [win, win, win]]
+      };
+
       if (win === 'DRAW') {
-        this.setState({ board: [[win, win, win], [win, win, win], [win, win, win]],
-          style: { fontSize: 50 + 'px' }
-        });
+        this.setState(draw);
       } else {
-        this.setState({ board: [[win, win, win], ['W', 'I', 'N'], [win, win, win]]
-        });
+        this.setState(winner);
       }
     }
   }, {
     key: 'flip',
     value: function flip(row, column) {
-      if (this.state.board[row][column] === '-') {
-        var toChange = void 0;
-        this.counter % 2 ? toChange = 'X' : toChange = 'O';
-        this.counter += 1;
+      var _this2 = this;
 
-        // Deep clone board to mutate values on clone. Then set state to mutated clone.
-        var newBoard = JSON.parse(JSON.stringify(this.state.board));
-        newBoard[row][column] = toChange;
-        this.setState({ board: newBoard }, this.checkWin.bind(this, row, column, toChange));
+      if (this.state.board[row][column] !== '-') {
+        return;
       }
+
+      var letter = this.counter % 2 ? 'X' : 'O';
+      this.counter++;
+
+      // Clone board to avoid mutating state directly
+      var newBoard = Object.assign({}, this.state.board);
+      newBoard[row][column] = letter;
+
+      // Trigger callback to check win conditions every time board is updated
+      this.setState({ board: newBoard }, function () {
+        return _this2.checkWin(row, column, letter);
+      });
     }
   }, {
     key: 'render',
     value: function render() {
       var rows = [];
-      for (var i = 0; i < 3; i += 1) {
-        rows[i] = _react2.default.createElement(_Row2.default, { board: this.state.board, boxStyle: this.state.style, row: i, key: i, flip: this.flip });
+      for (var row = 0; row < 3; row++) {
+        rows.push(_react2.default.createElement(_Row2.default, {
+          board: this.state.board,
+          boxStyle: this.state.style,
+          flip: this.flip,
+          row: row,
+          key: row
+        }));
       }
 
       return _react2.default.createElement(
@@ -22563,10 +22601,8 @@ function Row(_ref) {
   for (var column = 0; column < 3; column++) {
     boxes.push(_react2.default.createElement(_Box2.default, {
       board: board,
-      boxStyle: boxStyle
-
-      // box prop stores row and column info for boxes to update state
-      , coords: row + ',' + column,
+      boxStyle: boxStyle,
+      coords: row + ',' + column,
       key: row + ',' + column,
       flip: flip
     }));
@@ -22607,7 +22643,7 @@ function Box(_ref) {
   var column = coords[2];
 
   return (
-    // Flip updates state in App
+    // Flip updates board state in App component
     _react2.default.createElement(
       "button",
       { className: "box", style: boxStyle, onClick: function onClick() {
