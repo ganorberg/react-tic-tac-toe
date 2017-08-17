@@ -1,4 +1,4 @@
-![O Wins Tic-tac-toe](/assets/tic-tac-toe-o-win.png?raw=true)
-
 # How to Play
-Simply clone this repo and open the index.html page in the browser to play with a friend. Have fun!
+Visit https://ganorberg.github.io/react-tic-tac-toe/ to play with a friend. Have fun!
+
+![X Wins](/assets/X-win.png?raw=true)
