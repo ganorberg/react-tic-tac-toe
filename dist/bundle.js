@@ -22442,10 +22442,13 @@ var App = function (_Component) {
     _this.checkWin = _this.checkWin.bind(_this), _this.flashWin = _this.flashWin.bind(_this);
     _this.flip = _this.flip.bind(_this), _this.newGame = _this.newGame.bind(_this),
 
-    // counter used to alternate X and O as well as determine draw
+    // alternate X and O, and determine draw
     _this.counter = 0;
     return _this;
   }
+
+  // allow contravariant use of covariant properties
+
 
   _createClass(App, [{
     key: 'newGame',
@@ -22460,7 +22463,7 @@ var App = function (_Component) {
   }, {
     key: 'checkWin',
     value: function checkWin(row, column, lastLetter) {
-      // Check row and column last move resides in
+      // check every box in the given row to see if they all match the letter selected
       for (var testColumn = 0; testColumn < 3; testColumn += 1) {
         if (this.state.board[row][testColumn] !== lastLetter) break;
         if (testColumn === 2) {
@@ -22469,7 +22472,8 @@ var App = function (_Component) {
         }
       }
 
-      for (var testRow = 0; testRow < 3; testRow += 1) {
+      // check every box in the given column to see if they all match the letter selected
+      for (var testRow = 0; testRow < 3; testRow++) {
         if (this.state.board[testRow][column] !== lastLetter) break;
         if (testRow === 2) {
           this.flashWin(lastLetter);
@@ -22477,7 +22481,7 @@ var App = function (_Component) {
         }
       }
 
-      // Diagonal check
+      // check diagonals
       var topLeft = this.state.board[0][0];
       var topRight = this.state.board[0][2];
       var middle = this.state.board[1][1];
@@ -22524,7 +22528,7 @@ var App = function (_Component) {
       this.counter++;
 
       // Clone board to avoid mutating state directly
-      var newBoard = Object.assign({}, this.state.board);
+      var newBoard = JSON.parse(JSON.stringify(this.state.board));
       newBoard[row][column] = letter;
 
       // Trigger callback to check win conditions every time board is updated
@@ -22639,11 +22643,11 @@ function Box(_ref) {
       coords = _ref.coords,
       flip = _ref.flip;
 
-  var row = coords[0];
-  var column = coords[2];
+  var row = Number(coords[0]);
+  var column = Number(coords[2]);
 
   return (
-    // Flip updates board state in App component
+    // flip updates board state in App component
     _react2.default.createElement(
       "button",
       { className: "box", style: boxStyle, onClick: function onClick() {
