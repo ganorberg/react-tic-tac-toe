@@ -95,7 +95,7 @@ export default class App extends Component<void, State> {
       board: [[win, win, win],
               [win, win, win],
               [win, win, win]],
-      style: {fontSize: 32 + 'px'}
+      style: {fontSize: `${32}px`}
     }
 
     const winner = {
