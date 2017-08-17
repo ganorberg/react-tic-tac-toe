@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "Interactive (and pretty!) Tic-tac-toe built with React",
   "author": "George Norberg",
-  "contributors": [{ 
-    "name": "Edward Guo",
-    "github": "ehguo"
-  }],
+  "contributors": [
+    {
+      "name": "Edward Guo",
+      "github": "ehguo"
+    }
+  ],
   "scripts": {
-    "start": "webpack"
+    "start": "webpack",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -23,12 +26,14 @@
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.2.1",
+    "flow-bin": "^0.53.0",
     "webpack": "^3.5.4"
   }
 }
