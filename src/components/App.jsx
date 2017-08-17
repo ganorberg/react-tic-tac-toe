@@ -35,7 +35,7 @@ export default class App extends Component<void, State> {
     this.flip = this.flip.bind(this),
     this.newGame = this.newGame.bind(this),
     
-    // counter used to alternate X and O as well as determine draw
+    // alternate X and O, and determine draw
     this.counter = 0;
   }
 
@@ -51,7 +51,7 @@ export default class App extends Component<void, State> {
   }
 
   checkWin(row: number, column: number, lastLetter: string): void {
-    // Check every box in the given row for same letter
+    // check every box in the given row to see if they all match the letter selected
     for (let testColumn = 0; testColumn < 3; testColumn += 1) {
       if (this.state.board[row][testColumn] !== lastLetter) break;
       if (testColumn === 2) {
@@ -60,7 +60,7 @@ export default class App extends Component<void, State> {
       }
     }
     
-    // Check every box in the given column for same letter
+    // check every box in the given column to see if they all match the letter selected
     for (let testRow = 0; testRow < 3; testRow++) {
       if (this.state.board[testRow][column] !== lastLetter) break;
       if (testRow === 2) {
@@ -69,7 +69,7 @@ export default class App extends Component<void, State> {
       }
     }
 
-    // Diagonal check
+    // check diagonals
     const topLeft = this.state.board[0][0];
     const topRight = this.state.board[0][2];
     const middle = this.state.board[1][1];
