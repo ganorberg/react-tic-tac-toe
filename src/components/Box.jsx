@@ -1,8 +1,17 @@
+// @flow
+
 import React from 'react'
 
-export default function Box({ board, boxStyle, coords, flip }) {
-  const row = coords[0];
-  const column = coords[2];
+type Props = {
+  board: Array<Array<string>>,
+  boxStyle: { outline?: string, fontSize: string },
+  coords: string,
+  flip: (number, number) => void
+}
+
+export default function Box({ board, boxStyle, coords, flip }: Props) {
+  const row = Number(coords[0]);
+  const column = Number(coords[2]);
 
   return (
     // Flip updates board state in App component

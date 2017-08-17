@@ -1,8 +1,23 @@
+// @flow
+
 import React, { Component } from 'react'
 import Row from './Row.jsx'
 import StartButton from './StartButton.jsx'
 
-export default class App extends Component {
+type State = {
+  board: Array<Array<string>>,
+  style: { outline?: string, fontSize: string }
+}
+
+export default class App extends Component<void, State> {
+
+  // allow contravariant use of covariant properties
+  checkWin: (number, number, string) => void;
+  flashWin: (string) => void;
+  flip: (number, number) => void;
+  newGame: () => void;
+  counter: number;
+
   constructor() {
     super();
     this.state = {
@@ -24,7 +39,7 @@ export default class App extends Component {
     this.counter = 0;
   }
 
-  newGame() {
+  newGame(): void {
     this.setState({
       board: [['-', '-', '-'],
               ['-', '-', '-'],
@@ -35,8 +50,8 @@ export default class App extends Component {
     this.counter = 0;
   }
 
-  checkWin(row, column, lastLetter) {
-    // Check row and column last move resides in
+  checkWin(row: number, column: number, lastLetter: string): void {
+    // Check every box in the given row for same letter
     for (let testColumn = 0; testColumn < 3; testColumn += 1) {
       if (this.state.board[row][testColumn] !== lastLetter) break;
       if (testColumn === 2) {
@@ -45,7 +60,8 @@ export default class App extends Component {
       }
     }
     
-    for (let testRow = 0; testRow < 3; testRow += 1) {
+    // Check every box in the given column for same letter
+    for (let testRow = 0; testRow < 3; testRow++) {
       if (this.state.board[testRow][column] !== lastLetter) break;
       if (testRow === 2) {
         this.flashWin(lastLetter);
@@ -74,7 +90,7 @@ export default class App extends Component {
     if (this.counter > 8) { this.flashWin('DRAW'); }
   }
 
-  flashWin(win) {
+  flashWin(win: string): void {
     const draw = {
       board: [[win, win, win],
               [win, win, win],
@@ -92,14 +108,14 @@ export default class App extends Component {
     else { this.setState(winner); }
   }
 
-  flip(row, column) {
+  flip(row: number, column: number): void {
     if (this.state.board[row][column] !== '-') { return; }
    
     const letter = this.counter % 2 === 0 ? 'X' : 'O';
     this.counter++;
 
     // Clone board to avoid mutating state directly
-    const newBoard = Object.assign({}, this.state.board);
+    const newBoard = JSON.parse(JSON.stringify(this.state.board));
     newBoard[row][column] = letter;
 
     // Trigger callback to check win conditions every time board is updated

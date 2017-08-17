@@ -1,6 +1,12 @@
+// @flow
+
 import React from 'react'
 
-export default function StartButton({ newGame }) {
+type Props = {
+  newGame: () => void
+}
+
+export default function StartButton({ newGame }: Props) {
   return (
     <button id="startButton" onClick={newGame}>New Game</button>
   )
